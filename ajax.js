@@ -2,7 +2,20 @@ $(document).ready(function () {
   editName = (e) => {
     var target = $(e.target);
     var up = $(target.parent());
-    console.log($(up[0]).children().attr('id'));
+    var thisId = $(up[0]).children().attr('id');
+    var change = prompt("Zmień imię");
+    $.ajax
+    ({
+      type: "POST",
+      url: "edit_data.php",
+      data: { "thisId": thisId,  "change": change},
+      success: function (data) {
+        
+     alert("Imię zmienione");
+     getRecord();
+      }
+    });
+
   }
   deleteRecord = (e) => {
     var thisId = e.target.id;
