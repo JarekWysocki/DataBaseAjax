@@ -1,21 +1,32 @@
 $(document).ready(function () {
-  editName = (e) => {
+  editData = (e) => {
     var target = $(e.target);
     var up = $(target.parent());
     var thisId = $(up[0]).children().attr('id');
-    var change = prompt("Zmień imię");
+    var change = e.target.id;
+    switch (change) {
+      case 'newFname':
+      var newFname = prompt("Edytuj imię");
+      break;
+      case 'newLname' :
+      var newLname = prompt("Edytuj nazwisko"); 
+      break;
+      case 'newPass' :
+      var newPass = prompt("Edytuj hasło"); 
+      break; 
+    }
+    
+    if (newFname || newLname || newPass) {
     $.ajax
     ({
       type: "POST",
-      url: "edit_data.php",
-      data: { "thisId": thisId,  "change": change},
+      url: "edit_data.php", 
+      data: {"thisId": thisId, "newFname": newFname, "newLname": newLname, "newPass": newPass},
       success: function (data) {
-        
-     alert("Imię zmienione");
      getRecord();
       }
     });
-
+  }
   }
   deleteRecord = (e) => {
     var thisId = e.target.id;
@@ -63,11 +74,14 @@ $(document).ready(function () {
        var lname = String(atrb[2]);
        var pass = String(atrb[3]);
        var create = String(atrb[4]);
-       $(".table").append('<tr class="data"><td> '+ id +'</td><td>'+ fname + '</td><td>'+ lname +'</td><td>'+ pass +'</td><td>'+ create +'</td><td><span id="'+ id +'" class="delete">usuń</span></br><span class="editName">Edytuj imię</span></td></tr></table>');
+       $(".table").append('<tr class="data"><td> '+ id +'</td><td>'+ fname + 
+       '</td><td>'+ lname +'</td><td>'+ pass +'</td><td>'+ create + 
+       '</td><td><span id="'+ id + 
+       '" class="delete">usuń</span></br><span id="newFname" class="editData">Edytuj imię</span></br><span id="newLname" class="editData">Edytuj nazwisko</span></br><span id="newPass" class="editData">Edytuj hasło</span></td></tr></table>');
        
       })
       $('.delete').on("click", deleteRecord);
-      $('.editName').on("click", editName);
+      $('.editData').on("click", editData);
     })
   }
     $('#send').on("click", sendRecord);
