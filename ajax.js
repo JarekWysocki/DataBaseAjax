@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  
   editData = (e) => {
     var target = $(e.target);
     var up = $(target.parent());
@@ -77,14 +78,23 @@ $(document).ready(function () {
        $(".table").append('<tr class="data"><td> '+ id +'</td><td>'+ fname + 
        '</td><td>'+ lname +'</td><td>'+ pass +'</td><td>'+ create + 
        '</td><td><span id="'+ id + 
-       '" class="delete">usuń</span></br><span id="newFname" class="editData">Edytuj imię</span></br><span id="newLname" class="editData">Edytuj nazwisko</span></br><span id="newPass" class="editData">Edytuj hasło</span></td></tr></table>');
+       '" class="delete">Usuń</span></br><span id="newFname" class="editData">Edytuj imię</span></br><span id="newLname" class="editData">Edytuj nazwisko</span></br><span id="newPass" class="editData">Edytuj hasło</span></td></tr></table>');
        
       })
       $('.delete').on("click", deleteRecord);
       $('.editData').on("click", editData);
+      
     })
   }
+  randomPass = () => {
+    $.get("randomPass.php", function(data) {
+    console.log(data); 
+    $('#pass').val(data);
+  }
+    
+    )}
+
     $('#send').on("click", sendRecord);
     $('#get').on("click", getRecord);
-    
+    $('#random').on("click", randomPass);
 })
