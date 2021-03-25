@@ -1,18 +1,20 @@
 <?php
-require_once "connect.php";
-
-
-$mysqlConnection = @new mysqli($host, $db_user, $db_password, $db_name)or die($mysql_error());
-
-$result = $mysqlConnection->query("SELECT * FROM tab1");
-
-
-$data_array = array();
-while($rows = mysqli_fetch_row($result))
-    {
-        $data_array[] = $rows;       
-
-    }
-    echo json_encode($data_array);
-$mysqlConnection -> close();
+class FromDatabase {
+public function __construct($pdo) {
+  $this->pdo = $pdo;
+}
+function getData() {
+    $result = $this->pdo->prepare('SELECT * FROM tab1'); 
+    $result->execute();
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
+function __destruct()
+{   
+    $this->pdo = null;
+}
+}
+require_once 'connect.php';
+$db = new FromDatabase($pdo);
+echo json_encode($db->getData());           
 ?>
+ 
