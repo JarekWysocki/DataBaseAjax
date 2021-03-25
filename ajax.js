@@ -70,14 +70,10 @@ $(document).ready(function () {
         $('#demo').append('<table class="table"><tr><td>Id</td><td>Imie</td><td>Nazwisko</td><td>Hasło</td><td>Data utworzenia</td><td>Edycja</td></tr>');
       }
         data.forEach(function(atrb) {
-       let id = String(atrb[0]);
-       var fname = String(atrb[1]);
-       var lname = String(atrb[2]);
-       var pass = String(atrb[3]);
-       var create = String(atrb[4]);
-       $(".table").append('<tr class="data"><td> '+ id +'</td><td>'+ fname + 
-       '</td><td>'+ lname +'</td><td>'+ pass +'</td><td>'+ create + 
-       '</td><td><span id="'+ id + 
+         
+       $(".table").append('<tr class="data"><td> '+ atrb.id +'</td><td>'+ atrb.fname + 
+       '</td><td>'+ atrb.lname +'</td><td>'+ atrb.pass +'</td><td>'+ atrb.create + 
+       '</td><td><span id="'+ atrb.id + 
        '" class="delete">Usuń</span></br><span id="newFname" class="editData">Edytuj imię</span></br><span id="newLname" class="editData">Edytuj nazwisko</span></br><span id="newPass" class="editData">Edytuj hasło</span></td></tr></table>');
        
       })
