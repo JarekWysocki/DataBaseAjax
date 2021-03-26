@@ -1,8 +1,19 @@
 <?php
-require_once('connect.php');
+class DataDelete {
+    public function __construct($pdo, $thisId) {
+        $this->pdo = $pdo;
+        $this->thisId = $thisId;
+      }
+function deleteData() {
+$this->pdo->query('DELETE FROM tab1 WHERE id = '.$this->thisId.'');
+}
+function __destruct()
+{   
+    $this->pdo = null;
+}
+}
+require_once 'connect.php';
 $thisId = $_POST['thisId'];
-
-$mysqlConnection = @new mysqli($host, $db_user, $db_password, $db_name) or die($mysql_error());
-$mysqlConnection->query('DELETE FROM tab1 WHERE id = '.$thisId.'');
-$mysqlConnection -> close();
+$db = new DataDelete($pdo, $thisId);
+$db->deleteData();
 ?>
