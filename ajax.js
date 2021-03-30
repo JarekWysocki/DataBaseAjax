@@ -45,18 +45,26 @@ $(document).ready(function () {
   }
   sendRecord = (e) => {
     e.preventDefault()
+    var formData = new FormData();
     var fname = $('#fname').val();
     var lname = $('#lname').val();
     var pass = $('#pass').val();
+    var image = $("#image")[0].files[0];
+    formData.append("fname", fname);
+    formData.append("lname", lname);
+    formData.append("pass", pass);
+    formData.append("name", image);
     $.ajax
       ({
         type: "POST",
         url: "to_database.php",
-        data: { "fname": fname, "lname": lname, "pass": pass },
+        data: formData,
+        processData : false,
+        contentType : false,
         success: function (data) {
-        $('input[type="text"]').val('');
-       alert("Dane wysłane");
-       getRecord();
+          alert(data);
+          $('input[type="text"]').val('');
+          getRecord();
         }
       });
   }
@@ -84,7 +92,6 @@ $(document).ready(function () {
   }
   randomPass = () => {
     $.get("randomPass.php", function(data) {
-    console.log(data); 
     $('#pass').val(data);
   }
     
