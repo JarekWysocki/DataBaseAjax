@@ -62,9 +62,9 @@ $(document).ready(function () {
         processData : false,
         contentType : false,
         success: function (data) {
-          alert(data);
           $('input[type="text"]').val('');
           getRecord();
+          alert("data send");
         }
       });
   }
@@ -75,11 +75,11 @@ $(document).ready(function () {
       $(".data").remove();
       }
       if ($('.table').length == 0) {
-        $('#demo').append('<table class="table"><tr><td>Id</td><td>Imie</td><td>Nazwisko</td><td>Hasło</td><td>Data utworzenia</td><td>Edycja</td></tr>');
+        $('#demo').append('<table class="table"><tr><td>Id</td><td>Foto</td><td>Imie</td><td>Nazwisko</td><td>Hasło</td><td>Data utworzenia</td><td>Edycja</td></tr>');
       }
         data.forEach(function(atrb) {
          
-       $(".table").append('<tr class="data"><td> '+ atrb.id +'</td><td>'+ atrb.fname + 
+       $(".table").append('<tr class="data"><td> '+ atrb.id +'</td><td><img src="https://'+ window.location.hostname + '/img/' + atrb.img +'"</td><td>'+ atrb.fname + 
        '</td><td>'+ atrb.lname +'</td><td>'+ atrb.pass +'</td><td>'+ atrb.create + 
        '</td><td><span id="'+ atrb.id + 
        '" class="delete">Usuń</span></br><span id="newFname" class="editData">Edytuj imię</span></br><span id="newLname" class="editData">Edytuj nazwisko</span></br><span id="newPass" class="editData">Edytuj hasło</span></td></tr></table>');
