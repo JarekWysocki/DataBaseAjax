@@ -6,9 +6,7 @@ class DataSend {
         $this->fname = $fname;
         $this->lname = $lname;
         $this->pass = $pass;
-        $this->img = $img;    
-        var_dump($this->img);  
-        var_dump($this->img['name']); 
+        $this->img = $img;
     }
       function set_pass($salt1, $psw) {
         $pass_with_salt = $psw.$salt1;
@@ -16,11 +14,38 @@ class DataSend {
         return $passHash;
       }  
       function sendData() {
-        $new_pass = $this->set_pass($this->salt, $this->pass);
+        $bytes = disk_free_space("/"); //Checking disk free space
+        $new_pass = $this->set_pass($this->salt, $this->pass); //Call set_pass function
+        $expl = explode('.', $this->img['name']);
+        $extension_of_file = array_pop($expl); 
+         
+                  //Checking for the file in
+            if (empty($this->img)) exit('Image file is missing'); 
+                  //Checking for upload time errors
+            if ($this->img['error'] !== 0) exit('Image uploading error: INI Error');
+            if ($this->img['error'] === 1) exit('Max upload size exceeded');             
+                  //Checking the file size
+            if ($this->img['size'] > 2000000) exit('Max size limit exceeded (2Mb)'); 
+                  //Validating the Mime Type
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!in_array($this->img['type'], $allowedMimeTypes)) exit('Only JPEG, PNG and GIFs are allowed');    
+                  //Validating the image
+            $imageData = getimagesize($this->img['tmp_name']); 
+            if (!$imageData) exit('Invalid image');
+                  //Checking space in server
+            if ($bytes < $this->img['size']) exit('No space in server');
+            
+        $new_name = (bin2hex(openssl_random_pseudo_bytes(15, $cstrong))).".".$extension_of_file;
+        if(!@move_uploaded_file($this->img['tmp_name'], 'img/'.$new_name)) exit('Error upload');
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if(!@move_uploaded_file($this->img['tmp_name'], 'img/'.$this->img['name'])) exit($this->img);
-        $this->pdo->query("INSERT INTO tab1 (fname, lname, pass, img) VALUES ('$this->fname', '$this->lname', '$new_pass', '$this->img')");
-        }
+        $stmt = $this->pdo->prepare("INSERT INTO tab1 (fname, lname, pass, img) VALUES (:fname, :lname, :new_pass, :new_name)");
+        $stmt->bindParam(':fname', $this->fname);
+        $stmt->bindParam(':lname', $this->lname);
+        $stmt->bindParam(':new_pass', $new_pass);
+        $stmt->bindParam(':new_name', $new_name);
+        if($stmt->execute()) exit('Done!');
+      }
     
         function __destruct(){   
             $this->pdo = null;
