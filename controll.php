@@ -13,8 +13,8 @@
   }
   if ($_POST['choice'] == "send") {
     include 'to_database.php';
-    $DataSend = new DataSend($pdo, $_POST['fname'], $_POST['lname'], $_POST['pass'], $_FILES['name']);
-    $DataSend->sendData();
+    $DataSend = new DataSend($pdo);
+    $DataSend->sendData($_POST['fname'], $_POST['lname'], $_POST['pass'], $_FILES['name']);
     exit();
     }
   if ($_POST['choice'] == "delete") {
@@ -24,7 +24,7 @@
   }
   if ($_POST['choice'] == "edit") {
     include 'edit_data.php';
-    $DataEdit = new DataEdit($pdo, $_POST['thisId'], $_POST['newFname'], $_POST['newLname'], $_POST['newPass']);
-    $DataEdit->editData();
+    $DataEdit = new DataEdit($pdo);
+    $DataEdit->editData($_POST['newFname'], $_POST['newLname'], $_POST['newPass'], $_POST['thisId']);
   }
 ?>
