@@ -13,16 +13,11 @@ function deleteData() {
 $nameFile = $this->getNameImg();
 $nameFile = substr($nameFile, 1, -1);
 unlink('img/'.$nameFile);
- $this->pdo->query('DELETE FROM tab1 WHERE id = '.$this->thisId.'');
+if($this->pdo->query('DELETE FROM tab1 WHERE id = '.$this->thisId.'')) exit('Deleted');
 }
 function __destruct()
 {   
     $this->pdo = null;
 }
 }
-require_once 'connect.php';
-$thisId = $_POST['thisId'];
-$db = new DataDelete($pdo, $thisId);
-$db->deleteData();
-
 ?>
