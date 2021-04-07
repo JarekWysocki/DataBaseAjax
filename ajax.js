@@ -38,7 +38,6 @@ $(document).ready(function () {
       data: { "thisId": e.target.id, "choice" : "delete" },
       success: function (data) {
         getRecord();  
-     alert(data);
       }
     });
   }
@@ -59,7 +58,6 @@ $(document).ready(function () {
         contentType : false,
         success: function (data) {
           $('input[type="text"]').val('');
-          getRecord();
           alert(data);
         }
       });
@@ -79,7 +77,7 @@ $(document).ready(function () {
         $('#demo').append('<table class="table"><tr><td>Id</td><td>Foto</td><td>Imie</td><td>Nazwisko</td><td>Hasło</td><td>Data utworzenia</td><td>Edycja</td></tr>');
       }
         data.forEach(function(atrb) {
-         atrb.img ?
+         atrb.img.split('.').pop() ?
        $(".table").append('<tr class="data"><td> '+ atrb.id +'</td><td><img src="http://'+ window.location.hostname + '/img/' + atrb.img +'"></td><td>'+ atrb.fname + 
        '</td><td>'+ atrb.lname +'</td><td>'+ atrb.pass +'</td><td>'+ atrb.create + 
        '</td><td><span id="'+ atrb.id + 
@@ -99,14 +97,33 @@ $(document).ready(function () {
     ({
       type: "POST",
       url: "controll.php", 
-      data: {"choice": e.target.id},
+      data: {"choice": "random"},
       success: function (data) {
         $('#pass').val(data);
       }
     });
     }
-
+    log = (e) => {
+      e.preventDefault();
+      var formData = new FormData();
+      formData.append("choice", "log");
+      formData.append("fname", $('#logNick').val());   
+      formData.append("pass", $('#logPass').val());
+      $.ajax
+        ({
+          type: "POST",
+          url: "controll.php",
+          data: formData,
+          processData : false,
+          contentType : false,
+          success: function (data) {
+          
+          console.log(data);
+          }
+        });
+    }
     $('#send').on("click", sendRecord);
     $('#get').on("click", getRecord);
     $('#random').on("click", randomPass);
+    $('#login').on("click", log);
 })
