@@ -117,8 +117,8 @@ $(document).ready(function () {
           processData : false,
           contentType : false,
           success: function (data) {
-          
-          console.log(data);
+          data == 'Error'? alert(data) : window.location.replace(data); $('#logNick').val('');
+
           }
         });
     }
