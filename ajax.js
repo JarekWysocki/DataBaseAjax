@@ -43,6 +43,16 @@ $(document).ready(function () {
   }
   sendRecord = (e) => {
     e.preventDefault();
+    var email = $("#lname").val();
+    const regMail = /^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i;
+    if (!regMail.test(email)) {
+    alert('Email is incorrect');
+      return false;}
+    var strongRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/; 
+    var pass = $("#pass").val();
+    if (!strongRegex.test(pass)) {
+      alert('Passowrd must have min 8 and max 20 characters, minimum 1  number and special character');
+        return false;}
     var formData = new FormData();
     formData.append("choice", e.target.id);
     formData.append("fname", $('#fname').val());
@@ -57,7 +67,7 @@ $(document).ready(function () {
         processData : false,
         contentType : false,
         success: function (data) {
-          $('input[type="text"]').val('');
+          if(data == 'Verify your registy on your email') {$('input[type="text"]').val('')};
           alert(data);
         }
       });
@@ -117,8 +127,7 @@ $(document).ready(function () {
           processData : false,
           contentType : false,
           success: function (data) {
-          data == 'Error'? alert(data) : window.location.replace(data); $('#logNick').val('');
-
+          data == 'Error' || data == 'Confirm your email'? alert(data) : window.location = data; 
           }
         });
     }
