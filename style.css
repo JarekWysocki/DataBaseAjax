@@ -1,0 +1,179 @@
+body {
+  text-align: center;
+  background: beige;
+  font-family: "Open Sans", semibold;
+}
+#temperature {
+  font-size: 50px;
+}
+img {
+  display: block;
+  margin: auto;
+}
+.delete {
+  color:red;
+  border: 1px;
+  cursor: pointer;
+}
+.table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 11px;
+}
+.editData {
+  cursor:pointer;
+  color: red;
+  ;
+}
+.off {
+  border: 3px solid red;
+}
+.on {
+  border: 3px solid #00ff48;
+}
+.table td, .table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  overflow-wrap: break-word;
+}
+.data img {
+  width: 50px;
+  height: 50px;
+}
+.chatMessages {
+  flex-basis: 30%;
+  height:300px;
+  overflow: scroll;
+}
+.chatContainer {
+display: flex;
+flex-wrap: wrap;
+justify-content: end;
+align-items: flex-start;
+}
+.start {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#demo, #log {
+  flex-basis: 50%;
+}
+#mypage img {
+width: 100px;
+height: 100px;
+object-fit: cover;
+border-radius: 50%;
+}
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 2px;
+  margin: 2px 0;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img, .users img {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.container img {
+  margin-right: 20px;
+}
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+.users {
+  flex-basis: 12%;
+  max-height:300px;
+  overflow: scroll;
+  border-radius: 5px;
+}
+.user {
+  padding:5px;
+  background-color:  #dedede;
+}
+.chatBottom {
+  flex-basis: 100%;
+}
+.time-right {
+  float: right;
+  color: #aaa;
+  font-size: 11px;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+.container p {
+  text-align: initial;
+font-size: 15px;
+margin: 5px;
+}
+.users p:first-child {
+margin: 0;
+padding: 11px;
+background-color: #dedede;
+}
+@media only screen and (max-width: 665px) {
+  #demo, #log {
+    flex-basis: 100%;
+  }
+  .chatMessages {
+    flex-basis: 79%;
+    margin-right: 4px;
+}
+.users {
+  flex-basis: 20%;
+  font-size: 12px;
+}
+#text {
+  width:90%;
+}
+#chatForm {
+  margin:10px;
+}
+.user {
+  text-align: center;
+  
+}
+.users img {
+float: none;
+
+}
+}
+@media only screen and (max-width: 500px) {
+  #location {
+    font-size: 55px;
+    margin-top: 10px;
+  }
+  #temperature {
+    font-size: 70px;
+    margin: 10px;
+  }
+  #region {
+    font-size: 25px;
+  }
+  #pressure {
+    font-size: 25px;
+  }
+  img {
+    width: 33%;
+  }
+}
