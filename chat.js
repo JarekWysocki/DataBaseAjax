@@ -41,10 +41,7 @@ $(document).ready(function(){
 				$(".users").html(data);
 			});	
 			if (idleTime == 0) { 	
-				console.log($.now());
-				console.log(myname);
-				$.post('islog.php', {myname: myname, status: 0}, function(data){
-					
+				$.post('islog.php', {myname: myname, status: 0}, function(data){	
 				});
    			 }
 			idleTime = idleTime + 1;
@@ -52,6 +49,11 @@ $(document).ready(function(){
 
 		setInterval(getData,1000);
 		
-		
+		chatWithUser = (e) => {
+			var id=$(this).attr('id');
+				console.log(id);
+		}
+
+		$('.users').on("click", chatWithUser);
 	});
 	
