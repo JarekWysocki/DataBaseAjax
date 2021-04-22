@@ -39,6 +39,7 @@ $(document).ready(function(){
 				});
 			$.get('getusers.php', function(data){
 				$(".users").html(data);
+				$('.user img').on("click", chatWithUser);
 			});	
 			if (idleTime == 0) { 	
 				$.post('islog.php', {myname: myname, status: 0}, function(data){	
@@ -46,14 +47,30 @@ $(document).ready(function(){
    			 }
 			idleTime = idleTime + 1;
 		};
-
+		
 		setInterval(getData,1000);
 		
 		chatWithUser = (e) => {
-			var id=$(this).attr('id');
-				console.log(id);
+				var toUser = e.target.id;
+				var plus = toUser+"x";
+				if (!($('.newWindow').is('#'+ toUser +''))) {
+					var newDiv = '<div id="'+ toUser +'" class="newWindow '+ plus +'"><p>X</p>'+ toUser +'<form class="private" onsubmit="return false;"><input class="mymessage '+ toUser +'" type="text"></form></div>';
+					$('.chatWindows').append(newDiv);
+					$('.newWindow p:first-child').on("click", function() {$(this).parent().remove()});
+					
+					$('.'+ plus +'').on('submit', '.private', function() {
+						console.log(toUser);
+						var message = $('.'+ toUser +'').val();
+						console.log(message);
+						$('.'+ toUser +'').val('');
+						var fromUser = $("#mypage p").attr('id');
+						console.log(fromUser);
+						
+					})
+				}
+				
+			
 		}
-
-		$('.users').on("click", chatWithUser);
+		
 	});
 	
