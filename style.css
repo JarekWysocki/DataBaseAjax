@@ -1,7 +1,11 @@
+html {
+  height: 100%;
+}
 body {
   text-align: center;
   background: beige;
   font-family: "Open Sans", semibold;
+  min-height: 100%;
 }
 #temperature {
   font-size: 50px;
@@ -72,7 +76,30 @@ border-radius: 50%;
   padding: 2px;
   margin: 2px 0;
 }
-
+.chatWindows {
+  position: absolute;
+  bottom: 0;
+}
+.newWindow {
+  width: 200px;
+  height: 250px;
+  background: #f1f1f1;
+  float: left;
+  border: 1px solid black;
+  margin: 1px;
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+.newWindow p:first-child {
+  float: right;
+  margin: 0;
+}
+.newWindow input {
+  width: 80%;
+  bottom: -195px;
+  position: relative;
+}
 .darker {
   border-color: #ccc;
   background-color: #ddd;
