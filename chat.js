@@ -36,7 +36,7 @@ $(document).ready(function(){
 				var countMsg = data.split('<div').length - 1;
 				if(countMsg > amount) {
 				$('.chatMessages').scrollTop($('.chatMessages')[0].scrollHeight);}
-				});
+				});	
 			$.get('getusers.php', function(data){
 				$(".users").html(data);
 				$('.user img').on("click", chatWithUser);
@@ -51,26 +51,32 @@ $(document).ready(function(){
 		setInterval(getData,1000);
 		
 		chatWithUser = (e) => {
+			var person = e.target.nextElementSibling.firstChild.data;
+			setInterval(newmessage = () => {
+				console.log(person);
+			},1000);
 				var toUser = e.target.id;
+				var fromUser = $("#mypage p").attr('id');
 				var plus = toUser+"x";
-				if (!($('.newWindow').is('#'+ toUser +''))) {
-					var newDiv = '<div id="'+ toUser +'" class="newWindow '+ plus +'"><p>X</p>'+ toUser +'<form class="private" onsubmit="return false;"><input class="mymessage '+ toUser +'" type="text"></form></div>';
+				if ((!($('.newWindow').is('#'+ toUser +''))) && toUser != fromUser) {
+					var newDiv = '<div id="'+ toUser +'" class="newWindow '+ plus +'"><p>X</p>'+ person +'<div></div><form class="private" onsubmit="return false;"><input class="mymessage '+ toUser +'" type="text"></form></div>';
 					$('.chatWindows').append(newDiv);
 					$('.newWindow p:first-child').on("click", function() {$(this).parent().remove()});
-					
-					$('.'+ plus +'').on('submit', '.private', function() {
-						console.log(toUser);
-						var message = $('.'+ toUser +'').val();
-						console.log(message);
-						$('.'+ toUser +'').val('');
-						var fromUser = $("#mypage p").attr('id');
-						console.log(fromUser);
-						
+					$('.'+ plus +'').on('submit', '.private', function() {	
+						var message = $('.'+ toUser +'').val();	
+						if (message) {
+							$.post('ChatPoster.php', {message: message, toUser: toUser, fromUser: fromUser}, function(data){
+								$('.'+ toUser +'').val('');
+								//var countMsg = data.split('<p').length - 1;
+								//var amount = $("."+ plus +" p").length;								
+								$('.'+ plus +' div').html(data);
+								$('.'+ plus +' div').scrollTop($('.'+ plus +' div')[0].scrollHeight);				
+							});
+						}
 					})
 				}
-				
+			
 			
 		}
 		
 	});
-	
