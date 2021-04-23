@@ -91,13 +91,18 @@ border-radius: 50%;
   left: 0;
   bottom: 0;
 }
+.newWindow > div {
+  width: 100%;
+  height: 75%;
+  overflow-y: scroll;
+  background: aliceblue;
+}
 .newWindow p:first-child {
   float: right;
   margin: 0;
 }
 .newWindow input {
   width: 80%;
-  bottom: -195px;
   position: relative;
 }
 .darker {
