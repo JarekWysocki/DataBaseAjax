@@ -48,8 +48,16 @@ $(document).ready(function(){
 				}}
 				lastid = data;
 			});
+			$.post('isnewmessage.php', {fromUser: fromUser}, function(data){		
+			
+					var newalert = data.split(',');
+					newalert = newalert.slice(0, -1);
+					var uniqueChars = [...new Set(newalert)];
+					uniqueChars.forEach(e => chatWithUser(null, e));
+			
+			});
 			if (idleTime == 0) { 	
-				$.post('islog.php', {myname: myname, status: 0}, function(data){	
+				$.post('islog.php', {myname: myname}, function(data){	
 				});
    			 }
 			idleTime = idleTime + 1;
@@ -64,7 +72,7 @@ $(document).ready(function(){
 			}
 			else {
 			var toUser = data;
-			var persons = jQuery(".user img[id]");
+			var persons = jQuery(".user img");
 			persons.each(function() {
 				if (toUser == (jQuery(this).attr('id'))){
 					person = jQuery(this).next().text();
