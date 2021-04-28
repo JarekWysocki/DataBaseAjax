@@ -3,7 +3,7 @@ html {
 }
 body {
   text-align: center;
-  background: beige;
+  background: #DEE4E6;
   font-family: "Source Sans Pro", "Arial", sans-serif;
   min-height: 96%;
 }
@@ -13,6 +13,11 @@ body {
 img {
   display: block;
   margin: auto;
+}
+.site {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
 }
 .delete {
   color:red;
@@ -47,12 +52,12 @@ img {
 .chatMessages {
   flex-basis: 80%;
   height:300px;
-  overflow: scroll;
+  overflow: auto;
 }
 .chatContainer {
 display: flex;
 flex-wrap: wrap;
-justify-content: end;
+justify-content: space-around;
 align-items: flex-start;
 }
 .start {
@@ -63,28 +68,20 @@ align-items: flex-start;
 #demo, #log {
   flex-basis: 50%;
 }
-#mypage img {
-width: 100px;
-height: 100px;
-object-fit: cover;
-border-radius: 50%;
-}
+
 .container {
   border: 2px solid #dedede;
-  background-color: #f1f1f1;
+  background-color: #FFFFFF;
   border-radius: 5px;
   padding: 2px;
   margin: 2px 0;
 }
-.chatWindows {
-  position: absolute;
-  bottom: 0;
-}
+
 .newWindow {
   border-radius: 9px;
   width: 200px;
   height: 250px;
-  background: #f1f1f1;
+  background: #FFFFFF;
   float: left;
   border: 1px solid black;
   margin: 1px;
@@ -129,10 +126,6 @@ border-radius: 50%;
   width: 80%;
   position: relative;
 }
-.darker {
-  border-color: #ccc;
-  background-color: #ddd;
-}
 .user img {
   cursor: pointer;
 }
@@ -157,14 +150,21 @@ border-radius: 50%;
   margin-right:0;
 }
 .users {
-  flex-basis: 12%;
+  flex-basis: 15%;
   max-height:300px;
-  overflow: scroll;
+  overflow: auto;
   border-radius: 5px;
+  ;
+}
+.demo{
+  flex-basis: 15%;
+}
+#mypage {
+  flex-basis: 70%;
 }
 .user {
   padding:5px;
-  background-color:  #dedede;
+  
 }
 .chatBottom {
   flex-basis: 100%;
@@ -190,18 +190,57 @@ margin: 0;
 padding: 11px;
 background-color: #dedede;
 }
-@media only screen and (max-width: 665px) {
+#mypage > img:first-of-type {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:0) { 
+    select,
+    textarea,
+    input {
+      font-size: 16px;
+    }
+  }
+@media only screen and (max-width: 900px) {
+  .newWindow {
+    height: 370px;
+    width: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    position: absolute;
+  }
+  .newWindow > div {
+    height: 80%;
+  }
+  
+  .site {
+    flex-wrap: wrap;
+  }
+  #logout {
+    top:150px;
+  }
   #demo, #log {
     flex-basis: 100%;
   }
   .chatMessages {
-    flex-basis: 79%;
-    margin-right: 4px;
+    flex-basis: 100%;
+    margin-top: 10px;
+}
+#mypage {
+  flex-basis: 100%;
 }
 .users {
-  flex-basis: 20%;
+  flex-basis: 100%;
   font-size: 12px;
+  height: 100px;
+  overflow-x: scroll;
+  overflow-y: clip;
+  display: flex;
 }
+
 #text {
   width:90%;
 }
@@ -210,10 +249,11 @@ background-color: #dedede;
 }
 .user {
   text-align: center;
-  
+  display: inline-block;
+  padding: 5px 10px;
 }
 .users img {
-float: none;
+margin:5px;
 
 }
 }
