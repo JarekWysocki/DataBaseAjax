@@ -45,6 +45,7 @@ img {
   border-collapse: collapse;
   overflow-wrap: break-word;
 }
+
 .data img {
   width: 50px;
   height: 50px;
@@ -87,7 +88,7 @@ align-items: flex-start;
   margin: 1px;
   position: relative;
   left: 0;
-  bottom: 0;
+  bottom: 80px;
 }
 .mymessage {
   width: 80%;
@@ -136,13 +137,13 @@ align-items: flex-start;
 }
 
 .container img, .users img {
-  float: left;
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
 .container img {
   margin-right: 20px;
+  float: left;
 }
 .container img.right {
   float: right;
@@ -190,11 +191,21 @@ margin: 0;
 padding: 11px;
 background-color: #dedede;
 }
+.user p {
+  font-size: 12px;
+  margin: 0;
+}
 #mypage > img:first-of-type {
   width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
+  }
+  .myphoto {
+    width: 100px !important;
+  height: 100px !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
   }
   @media screen and (-webkit-min-device-pixel-ratio:0) { 
     select,
@@ -211,6 +222,7 @@ background-color: #dedede;
     left: 50%;
     transform: translate(-50%, 0);
     position: absolute;
+    bottom: 0;
   }
   .newWindow > div {
     height: 80%;
@@ -251,10 +263,10 @@ background-color: #dedede;
   text-align: center;
   display: inline-block;
   padding: 5px 10px;
+  width: 90px;
 }
 .users img {
-margin:5px;
-
+margin:5px auto;
 }
 }
 @media only screen and (max-width: 500px) {
