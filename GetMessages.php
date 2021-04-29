@@ -2,7 +2,7 @@
 require_once 'connect.php';
 
 
-  $query = $pdo->prepare("SELECT * FROM messages");
+  $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC");
   $query ->execute();
 
   while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
@@ -11,15 +11,40 @@ require_once 'connect.php';
     $data ->execute();
     $fetch1 = $data->fetch(PDO::FETCH_ASSOC);
     $img = $fetch1['img'];
+    $image = $fetch['image'];
     $message = $fetch['message'];
-    $id = $fetch['id'];
     $time = $fetch['time'];
-    //echo "<li id='$id' class='msg'>$name<b>".$time.":</b> ".$message."</li>";
-
-    echo "<div class='container' id='$id'>
-  <img src='/img/$img'>
-  <p>$message</p>
-  <span class='time-right'>$time</span>
-</div>";
+    if($name) {
+      if($img && $image) {
+            echo "<div class='container'>
+            <img src='/img/$img'>
+            <img class='myphoto' src='/img/$image'>
+            <p>$message</p>
+            <span class='time-right'>$time</span>
+            </div>";
+      }
+      if(!$img && $image) {
+        echo "<div class='container'>
+            <img src='/img/noimg.jpg'>
+            <img class='myphoto' src='/img/$image'>
+            <p>$message</p>
+            <span class='time-right'>$time</span>
+            </div>";
+      }
+      if ($img && !$image) {
+        echo "<div class='container'>
+            <img src='/img/$img'>
+            <p>$message</p>
+            <span class='time-right'>$time</span>
+            </div>";
+      }
+      if (!$img && !$image) {
+        echo "<div class='container'>
+            <img src='/img/noimg.jpg'>
+            <p>$message</p>
+            <span class='time-right'>$time</span>
+            </div>";
+      }
+    }
   }
 ?>
