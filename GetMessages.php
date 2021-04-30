@@ -6,43 +6,60 @@ require_once 'connect.php';
   $query ->execute();
 
   while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
-    $name = $fetch['name'];
-    $data = $pdo->prepare("SELECT * FROM tab1 WHERE fname = '$name'");
+    $nameid = $fetch['name'];
+    $data = $pdo->prepare("SELECT * FROM tab1 WHERE id = '$nameid'");
     $data ->execute();
     $fetch1 = $data->fetch(PDO::FETCH_ASSOC);
     $img = $fetch1['img'];
     $image = $fetch['image'];
     $message = $fetch['message'];
     $time = $fetch['time'];
-    if($name) {
+    $name = $fetch1['fname'];
+    if($nameid) {
       if($img && $image) {
             echo "<div class='container'>
             <img src='/img/$img'>
-            <img class='myphoto' src='/img/$image'>
+            <p>$name</p>
+            <div>
             <p>$message</p>
+            <img class='myphoto' src='/img/$image'>
+            <p class='like'>&#9733 like</p>
             <span class='time-right'>$time</span>
+            </div>
             </div>";
       }
       if(!$img && $image) {
         echo "<div class='container'>
             <img src='/img/noimg.jpg'>
-            <img class='myphoto' src='/img/$image'>
+            <p>$name</p>
+            <div>
             <p>$message</p>
+            <img class='myphoto' src='/img/$image'>
+            <p class='like'>&#9733 like</p>
             <span class='time-right'>$time</span>
+            </div>
             </div>";
       }
       if ($img && !$image) {
         echo "<div class='container'>
             <img src='/img/$img'>
+            <p>$name</p>
+            <div>
             <p>$message</p>
+            <p class='like'>&#9733 like</p>
             <span class='time-right'>$time</span>
+            </div>
             </div>";
       }
       if (!$img && !$image) {
         echo "<div class='container'>
             <img src='/img/noimg.jpg'>
+            <p>$name</p>
+            <div>
             <p>$message</p>
+            <p class='like'>&#9733 like</p>
             <span class='time-right'>$time</span>
+            </div>
             </div>";
       }
     }
