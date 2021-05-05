@@ -15,49 +15,60 @@ require_once 'connect.php';
     $message = $fetch['message'];
     $time = $fetch['time'];
     $name = $fetch1['fname'];
+    $idOfPost = $fetch['id'];
+    $conn = $pdo->prepare("SELECT tab1.fname FROM likes INNER JOIN tab1 ON tab1.id=likes.who_like_id WHERE post_id = $idOfPost");
+    $conn -> execute();
+    $howmuchlikes = 0;
+    echo "<div class='wholikes'>";
+    while($fetch2 = $conn->fetch(PDO::FETCH_ASSOC)){
+    ++$howmuchlikes;
+    $wholikes = $fetch2['fname'];
+    echo "<p>$wholikes</p>";
+    }
+    echo"</div>";
     if($nameid) {
       if($img && $image) {
-            echo "<div class='container'>
+            echo "<div id='$idOfPost' class='container'>
             <img src='/img/$img'>
             <p>$name</p>
             <div>
             <p>$message</p>
             <img class='myphoto' src='/img/$image'>
-            <p class='like'>&#9733 like</p>
+            <p class='like'>&#9733 like $howmuchlikes</p>
             <span class='time-right'>$time</span>
             </div>
             </div>";
       }
       if(!$img && $image) {
-        echo "<div class='container'>
+        echo "<div id='$idOfPost' class='container'>
             <img src='/img/noimg.jpg'>
             <p>$name</p>
             <div>
             <p>$message</p>
             <img class='myphoto' src='/img/$image'>
-            <p class='like'>&#9733 like</p>
+            <p class='like'>&#9733 like $howmuchlikes</p>
             <span class='time-right'>$time</span>
             </div>
             </div>";
       }
       if ($img && !$image) {
-        echo "<div class='container'>
+        echo "<div id='$idOfPost' class='container'>
             <img src='/img/$img'>
             <p>$name</p>
             <div>
             <p>$message</p>
-            <p class='like'>&#9733 like</p>
+            <p class='like'>&#9733 like $howmuchlikes</p>
             <span class='time-right'>$time</span>
             </div>
             </div>";
       }
       if (!$img && !$image) {
-        echo "<div class='container'>
+        echo "<div id='$idOfPost' class='container'>
             <img src='/img/noimg.jpg'>
             <p>$name</p>
             <div>
             <p>$message</p>
-            <p class='like'>&#9733 like</p>
+            <p class='like'>&#9733 like $howmuchlikes</p>
             <span class='time-right'>$time</span>
             </div>
             </div>";
