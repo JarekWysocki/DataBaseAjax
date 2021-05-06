@@ -4,10 +4,22 @@ $(document).ready(function(){
 	var idleTime = 0;
 	$(document).on('submit', '#chatForm', function(){
 			var text = $.trim($("#text").val());
-			var name = $.trim($("#name").val());
 			if(text != "") {
-				$.post('ChatPoster.php', {text: text, name: name}, function(data){
+				var formData = new FormData();
+				formData.append("text", text);
+    			formData.append("nameid", fromUser);
+				formData.append("img", $("#myphoto")[0].files[0]);
+				$.ajax
+				({
+				  type: "POST",
+				  url: "ChatPoster.php",
+				  data: formData,
+				  processData : false,
+				  contentType : false,
+				  success: function (data) {
 					$("#text").val('');
+					$('#myphoto').val('');
+				  }
 				});
 			} else {
 				alert("Empty message!");
@@ -31,15 +43,32 @@ $(document).ready(function(){
 		 $(this).click(function(e){
 			 idleTime = 0;
 		 });
-		getData = () => {
-			var myname = $("#mypage p").html().slice(6);
-			$.get('GetMessages.php', function(data){
-				$(".chatMessages").html(data);	
-				});	
-			$.get('getusers.php', function(data){
-				$(".users").html(data);
-				$('.user img').on("click", chatWithUser);
+		 $(this).on({'touchstart' : function() {
+			idleTime = 0;
+		 }});
+		 $.get('GetMessages.php', function(data){
+			$(".chatMessages").html(data);
+			$('.like').on("click", like);
+			$('.who').on("click", wholike);
 			});	
+		getData = () => {
+			var myname = $("#mypage p").html().slice(6);	
+				$.get('GetMessages.php', function(data){
+					var amount = $(".chatMessages div.container").length;
+					var countMsg = data.split("<div class='container'").length -1;
+					if (countMsg > amount) {
+					var value = countMsg - amount;
+					$.post('newpost.php', {value: value}, function(data){
+						$(".chatMessages").prepend(''+data+'');
+						$('.like').on("click", like);
+						$('.who').on("click", wholike);
+					});
+					}
+					});	
+				$.get('getusers.php', function(data){
+					$(".users").html(data);
+					$('.user img').on("click", chatWithUser);
+				});		
 			$.post('newmessage.php', {fromUser: fromUser}, function(data){		
 				if (lastid != data) {
 					if (lastid !=0) {
@@ -78,7 +107,6 @@ $(document).ready(function(){
 					person = jQuery(this).next().text();
 				}
 			});
-			
 			}
 			var plus = toUser+"x";
 				if ((!($('.newWindow').is('#'+ toUser +''))) && toUser != fromUser) {
@@ -86,8 +114,8 @@ $(document).ready(function(){
 					$('.chatWindows').append(newDiv);
 					var x = 0;
 					var myfunction = setInterval(newmessage = () => {
-						$.post('GetPrivateMessages.php', {toUser: toUser, fromUser: fromUser}, function(data){
-							var amount = $("."+ plus +" p").length -1;	
+						$.post('GetPrivateMessages.php', {toUser: toUser, fromUser: fromUser}, function(data){	
+							var amount = $("."+ plus +" p").length -1;		
 							$('.'+ plus +' div').html(data);
 							var countMsg = data.split('<p').length;
 							if(countMsg > amount) {
@@ -101,18 +129,30 @@ $(document).ready(function(){
 						$(this).parent().remove()});
 					$('.'+ plus +'').on('submit', '.private', function() {	
 						var message = $('.'+ toUser +'').val();	
-						if (message) {
+						if (message) {	
 							$.post('ChatPoster.php', {message: message, toUser: toUser, fromUser: fromUser}, function(data){
-								$('.'+ toUser +'').val('');							
-								$('.'+ plus +' div').html(data);
-								$('.'+ plus +' div').scrollTop($('.'+ plus +' div')[0].scrollHeight);		
-										
+								$('.'+ toUser +'').val('');		
 							});
 						}
 					})
-				}
-			
+				}	
 			
 		}
 		
+		like = (e) => {
+			var postId = e.target.parentNode.parentNode.id;
+			$.post('like.php', {postId: postId, fromUser: fromUser}, function(data){
+						
+			});
+		}
+		wholike = (e) => {
+			var postId = e.target.parentNode.parentNode.id;
+			$.post('wholike.php', {postId: postId}, function(data){
+				$('#'+ postId +'').append('<div class="wholikes"><p class="close">x</p>'+ data + '</div>');		
+				$('.close').on("click", out);
+			});
+		}
+		out = (e) => {
+			$('.wholikes').remove();
+		}
 	});
