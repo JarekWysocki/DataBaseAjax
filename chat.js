@@ -50,8 +50,27 @@ $(document).ready(function(){
 			$(".chatMessages").html(data);
 			$('.like').on("click", like);
 			$('.who').on("click", wholike);
+			$.get('getlikes.php', function(data){
+				var tableoflikes = data.split(",");
+				$('.container').each(function(i, obj) {
+					var count = tableoflikes.filter(x => x == obj.id).length;
+					if (count > 0) {
+					$("#"+obj.id+" p.who").html("<p class='who'>"+count+"</p>");
+					}
+				});
+			});
 			});	
+			
 		getData = () => {
+			$.get('getlikes.php', function(data){
+				var tableoflikes = data.split(",");
+				$('.container').each(function(i, obj) {
+					var count = tableoflikes.filter(x => x == obj.id).length;
+					if (count > 0) {
+					$("#"+obj.id+" p.who").html(count);
+					}
+				});
+			});
 			var myname = $("#mypage p").html().slice(6);	
 				$.get('GetMessages.php', function(data){
 					var amount = $(".chatMessages div.container").length;
@@ -154,5 +173,17 @@ $(document).ready(function(){
 		}
 		out = (e) => {
 			$('.wholikes').remove();
+		}
+		getlikes = (e) => {
+			$.get('getlikes.php', function(data){
+				var tableoflikes = data.split(",");
+				$('.container').each(function(i, obj) {
+					var count = tableoflikes.filter(x => x == obj.id).length;
+					console.log(obj.id+" ma "+count);
+					if (count > 0) {
+					$("#"+obj.id+" p.like").append("<p class='who'>"+count+"</p>");
+					}
+				});
+			});
 		}
 	});
