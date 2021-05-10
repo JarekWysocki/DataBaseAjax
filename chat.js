@@ -25,6 +25,13 @@ $(document).ready(function(){
 				alert("Empty message!");
 			}
 		});
+		$(document).on('submit','form.comments',function(e){
+			var postId = e.target.parentNode.id;
+			var text = $("#"+postId+" input").val();
+			$.post('newcomment.php', {postId: postId, fromUser: fromUser, text: text}, function(data){	
+				$("#"+postId+" input").val('');
+			});
+		 });
 		$(this).mousemove(function(e){
 			 idleTime = 0;
 		 });
@@ -50,14 +57,16 @@ $(document).ready(function(){
 			$(".chatMessages").html(data);
 			$('.like').on("click", like);
 			$('.who').on("click", wholike);
-			$.get('getlikes.php', function(data){
-				var tableoflikes = data.split(",");
+			$.get('getcomments.php', function(data){
+			data = JSON.parse(data);
+			data.forEach(function(atrb) {
+				console.log(atrb);
 				$('.container').each(function(i, obj) {
-					var count = tableoflikes.filter(x => x == obj.id).length;
-					if (count > 0) {
-					$("#"+obj.id+" p.who").html("<p class='who'>"+count+"</p>");
-					}
-				});
+				if (atrb.post_id == obj.id) {
+					$('#'+ obj.id + ' div.comments').append("<p>"+ atrb.comment +"</p>");
+				}	
+				})
+			})
 			});
 			});	
 			
@@ -81,6 +90,7 @@ $(document).ready(function(){
 						$(".chatMessages").prepend(''+data+'');
 						$('.like').on("click", like);
 						$('.who').on("click", wholike);
+						
 					});
 					}
 					});	
@@ -179,7 +189,7 @@ $(document).ready(function(){
 				var tableoflikes = data.split(",");
 				$('.container').each(function(i, obj) {
 					var count = tableoflikes.filter(x => x == obj.id).length;
-					console.log(obj.id+" ma "+count);
+				//console.log(obj.id+" ma "+count);
 					if (count > 0) {
 					$("#"+obj.id+" p.like").append("<p class='who'>"+count+"</p>");
 					}
