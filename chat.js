@@ -60,7 +60,6 @@ $(document).ready(function(){
 			$.get('getcomments.php', function(data){
 			data = JSON.parse(data);
 			data.forEach(function(atrb) {
-				console.log(atrb);
 				$('.container').each(function(i, obj) {
 				if (atrb.post_id == obj.id) {
 					$('#'+ obj.id + ' div.comments').append("<p>"+ atrb.comment +"</p>");
@@ -71,6 +70,19 @@ $(document).ready(function(){
 			});	
 			
 		getData = () => {
+				$('.container').each(function(i, obj) {
+				var amount = $("#"+ obj.id +" div.comments p").length;
+				$.post('isnewcomment.php', {postId: obj.id}, function(data){
+					var tableofcomments = data.split(",");
+					var countcomments = tableofcomments.length -1;
+					if (countcomments > amount) {
+						var value = countcomments - amount;
+						$.post('getnewcomment.php', {postId: obj.id, value: value}, function(data){
+							$("#"+obj.id+" div.comments").append(data);
+						});
+					}
+				});
+			});
 			$.get('getlikes.php', function(data){
 				var tableoflikes = data.split(",");
 				$('.container').each(function(i, obj) {
@@ -123,6 +135,7 @@ $(document).ready(function(){
 		
 		setInterval(getData,1000);
 		
+		
 		chatWithUser = (e, data) => {
 			if (data == undefined) {
 			var person = e.target.nextElementSibling.firstChild.data;
@@ -167,7 +180,7 @@ $(document).ready(function(){
 				}	
 			
 		}
-		
+	
 		like = (e) => {
 			var postId = e.target.parentNode.parentNode.id;
 			$.post('like.php', {postId: postId, fromUser: fromUser}, function(data){
