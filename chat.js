@@ -56,29 +56,19 @@ $(document).ready(function(){
 		 $.get('GetMessages.php', function(data){
 			$(".chatMessages").html(data);
 			$('.like').on("click", like);
-			$('.who').on("click", wholike);
-			$.get('getcomments.php', function(data){
-			data = JSON.parse(data);
-			data.forEach(function(atrb) {
-				$('.container').each(function(i, obj) {
-				if (atrb.post_id == obj.id) {
-					$('#'+ obj.id + ' div.comments').append("<p>"+ atrb.comment +"</p>");
-				}	
-				})
-			})
-			});
+			$('.like').on("mouseenter", wholike);
+			$('.like').on("mouseleave", out);
 			});	
 			
 		getData = () => {
 				$('.container').each(function(i, obj) {
-				var amount = $("#"+ obj.id +" div.comments p").length;
+				var amount = $("#"+ obj.id +" div.comment").length;
 				$.post('isnewcomment.php', {postId: obj.id}, function(data){
-					var tableofcomments = data.split(",");
-					var countcomments = tableofcomments.length -1;
-					if (countcomments > amount) {
-						var value = countcomments - amount;
-						$.post('getnewcomment.php', {postId: obj.id, value: value}, function(data){
-							$("#"+obj.id+" div.comments").append(data);
+					if (data > amount) {
+						var value = data - amount;
+						$.post('getnewcomment.php', {postId: obj.id, value: value}, function(dat){
+							$("#"+obj.id+" div.comments").append(dat);
+							
 						});
 					}
 				});
@@ -101,8 +91,8 @@ $(document).ready(function(){
 					$.post('newpost.php', {value: value}, function(data){
 						$(".chatMessages").prepend(''+data+'');
 						$('.like').on("click", like);
-						$('.who').on("click", wholike);
-						
+						$('.like').on("mouseenter", wholike);
+						$('.like').on("mouseleave", out);
 					});
 					}
 					});	
@@ -190,8 +180,8 @@ $(document).ready(function(){
 		wholike = (e) => {
 			var postId = e.target.parentNode.parentNode.id;
 			$.post('wholike.php', {postId: postId}, function(data){
-				$('#'+ postId +'').append('<div class="wholikes"><p class="close">x</p>'+ data + '</div>');		
-				$('.close').on("click", out);
+				if (data) {
+				$('#'+ postId +' p.like').append('<div class="wholikes">'+ data + '</div>');}		
 			});
 		}
 		out = (e) => {
@@ -202,7 +192,6 @@ $(document).ready(function(){
 				var tableoflikes = data.split(",");
 				$('.container').each(function(i, obj) {
 					var count = tableoflikes.filter(x => x == obj.id).length;
-				//console.log(obj.id+" ma "+count);
 					if (count > 0) {
 					$("#"+obj.id+" p.like").append("<p class='who'>"+count+"</p>");
 					}
