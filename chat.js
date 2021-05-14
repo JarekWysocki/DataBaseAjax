@@ -2,6 +2,17 @@ $(document).ready(function(){
 	var fromUser = $("#mypage p").attr('id');
 	var lastid = 0;
 	var idleTime = 0;
+	var width = $(window).width();
+	var heightwindow = $(window).height();
+	var heightfirst = $('.first').height();
+	var heightusers = $('.users').height();
+	var heightchatbottom = $('.chatBottom').height();
+	if(width > 800) {
+	$('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom +55));
+	}
+	else {
+	$('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + heightusers +65));
+	}
 	$(document).on('submit', '#chatForm', function(){
 			var text = $.trim($("#text").val());
 			if(text != "") {
@@ -56,8 +67,13 @@ $(document).ready(function(){
 		 $.get('GetMessages.php', function(data){
 			$(".chatMessages").html(data);
 			$('.like').on("click", like);
+			if(width > 800) {
 			$('.like').on("mouseenter", wholike);
-			$('.like').on("mouseleave", out);
+			$('.like').on("mouseleave", out);}
+			else {
+				$('.who').on("click", wholike);
+				$(document).on("click", out);
+			}
 			});	
 			
 		getData = () => {
@@ -91,8 +107,13 @@ $(document).ready(function(){
 					$.post('newpost.php', {value: value}, function(data){
 						$(".chatMessages").prepend(''+data+'');
 						$('.like').on("click", like);
+						if(width > 800) {
 						$('.like').on("mouseenter", wholike);
-						$('.like').on("mouseleave", out);
+						$('.like').on("mouseleave", out);}
+						else {
+							$('.who').on("click", wholike);
+							$(document).on("click", out);
+						}
 					});
 					}
 					});	
@@ -193,7 +214,7 @@ $(document).ready(function(){
 				$('.container').each(function(i, obj) {
 					var count = tableoflikes.filter(x => x == obj.id).length;
 					if (count > 0) {
-					$("#"+obj.id+" p.like").append("<p class='who'>"+count+"</p>");
+					$("#"+obj.id+" p.like").append("<p class='who'>"+ count +"</p>");
 					}
 				});
 			});
