@@ -6,6 +6,7 @@ Functionalities:
 3. Adding a posts.
 4. Adding comment.
 5. Giving likes.
-6. Loading users (green border if active, red border if not).
-7. Chat with other users after click on user img.
-8. Appication show current weather in user localization.
+6. Check who likes (in desktop after mouse move to "like" in mobile after click number next to "like").
+7. Loading users (green border if active, red border if not).
+8. Chat with other users after click on user img.
+9. Appication show current weather in user localization.
