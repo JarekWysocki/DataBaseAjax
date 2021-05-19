@@ -223,17 +223,36 @@ $(document).ready(function() {
         if ((!($('.newWindow').is('#' + toUser + ''))) && toUser != fromUser) {
             var newDiv = '<div id="' + toUser + '" class="newWindow ' + plus + '"><p>x </p><p>' + person + '</p><div></div><form class="private" onsubmit="return false;"><input class="mymessage ' + toUser + '" type="text"></form></div>';
             $('.chatWindows').append(newDiv);
-            var x = 0;
+            $.post('GetPrivateMessages.php', {
+                toUser: toUser,
+                fromUser: fromUser
+            }, function(data) {
+                var amount = $("." + plus + " p").length - 1;
+                $('.' + plus + ' div').html(data);
+                var countMsg = data.split('<p').length;
+                if (countMsg > amount) {
+                    $('.' + plus + ' div').scrollTop($('.' + plus + ' div')[0].scrollHeight);
+                }
+            })
             var myfunction = setInterval(newmessage = () => {
                 $.post('GetPrivateMessages.php', {
                     toUser: toUser,
                     fromUser: fromUser
                 }, function(data) {
                     var amount = $("." + plus + " p").length - 1;
-                    $('.' + plus + ' div').html(data);
                     var countMsg = data.split('<p').length;
                     if (countMsg > amount) {
-                        $('.' + plus + ' div').scrollTop($('.' + plus + ' div')[0].scrollHeight);
+                        var value = countMsg - amount;
+                        $.post('GetNewPrivateMessage.php', {
+                    toUser: toUser,
+                    fromUser: fromUser,
+                    value: value,
+                }, function(data) {
+                    console.log(data);
+                    $('.' + plus + ' div').append(data);
+                    $('.' + plus + ' div').scrollTop($('.' + plus + ' div')[0].scrollHeight);
+                }
+                        )
                     }
                 })
             }, 1000);
