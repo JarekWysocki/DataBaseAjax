@@ -12,9 +12,6 @@ function __destruct()
 {   
     $this->pdo = null;
 }
-}
-require_once 'connect.php';
-$db = new FromDatabase($pdo);
-echo json_encode($db->getData());           
+}           
 ?>
  

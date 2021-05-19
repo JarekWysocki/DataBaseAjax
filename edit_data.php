@@ -1,20 +1,25 @@
 <?php
-require_once('connect.php');
-$thisId = $_POST['thisId'];
-$newFname = $_POST['newFname'];
-$newLname = $_POST['newLname'];
-$newPass = $_POST['newPass'];
-$pass_with_salt = $_POST['newPass'].$salt;
-$pass = hash('sha512', $pass_with_salt);
-$mysqlConnection = @new mysqli($host, $db_user, $db_password, $db_name) or die($mysql_error());
-if (isset($_POST['newFname'])) {
-$mysqlConnection->query('UPDATE tab1 SET fname = "'.$newFname.'" WHERE id = '.$thisId.'');
+include 'to_database.php';
+class DataEdit extends DataSend {
+function editData($newFname, $newLname, $newPass, $id) {
+$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+if (isset($newFname)) {
+    $stmt = $this->pdo->prepare('UPDATE tab1 SET fname = :fname WHERE id = '. $id .'');
+    $stmt->bindParam(':fname', $newFname);    
 }
-    if (isset($_POST['newLname'])) {
-        $mysqlConnection->query('UPDATE tab1 SET lname = "'.$newLname.'" WHERE id = '.$thisId.'');
+    if (isset($newLname)) {
+        $stmt = $this->pdo->prepare('UPDATE tab1 SET lname = :lname WHERE id = '. $id .'');
+        $stmt->bindParam(':lname', $newLname);  
         }
-        if (isset($_POST['newPass'])) {
-            $mysqlConnection->query('UPDATE tab1 SET pass = "'.$pass.'" WHERE id = '.$thisId.'');
+        if (isset($newPass)) {
+            $new_pass = $this->set_pass($this->salt, $newPass);
+            $stmt = $this->pdo->prepare('UPDATE tab1 SET pass = :pass WHERE id = '. $id .'');
+            $stmt->bindParam(':pass', $new_pass); 
             }
-$mysqlConnection -> close();
+            if($stmt->execute()) exit('Changed!');
+        }
+            function __destruct(){   
+                $this->pdo = null;
+            }
+        }
 ?>

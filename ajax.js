@@ -43,16 +43,24 @@ $(document).ready(function () {
   }
   sendRecord = (e) => {
     e.preventDefault();
+    const regNick = /^.{3,20}$/;
+    var nick = $("#fname").val();
+    if (!regNick.test(nick)) {
+     alert("Nick must have max 20 and min 3 signs");
+     return false;
+    }
     var email = $("#lname").val();
     const regMail = /^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i;
     if (!regMail.test(email)) {
     alert('Email is incorrect');
-      return false;}
+    return false;
+    }
     var strongRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/; 
     var pass = $("#pass").val();
     if (!strongRegex.test(pass)) {
-      alert('Passowrd must have min 8 and max 20 characters, minimum 1  number and special character');
-        return false;}
+        alert('Passoword must have min 8 and max 20 characters, minimum 1  number and special character');
+        return false;
+      }
     var formData = new FormData();
     formData.append("choice", e.target.id);
     formData.append("fname", $('#fname').val());
@@ -67,7 +75,7 @@ $(document).ready(function () {
         processData : false,
         contentType : false,
         success: function (data) {
-          if(data == 'Verify your registy on your email') {$('input[type="text"]').val('')};
+          if(data == 'Verify your registy on your email') {$(':input').val('')};
           alert(data);
         }
       });
@@ -115,10 +123,19 @@ $(document).ready(function () {
     }
     log = (e) => {
       e.preventDefault();
+      const regNick = /^.{3,20}$/;
+    var nick = $("#logNick").val();
+    var pass = $("#logPass").val();
+    if (!regNick.test(nick) || !regNick.test(pass) ) {
+     alert("Error login");
+     return false;
+    }
+    
       var formData = new FormData();
       formData.append("choice", "log");
       formData.append("fname", $('#logNick').val());   
       formData.append("pass", $('#logPass').val());
+    
       $.ajax
         ({
           type: "POST",

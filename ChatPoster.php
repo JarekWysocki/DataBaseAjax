@@ -18,7 +18,7 @@
         @move_uploaded_file($img['tmp_name'], 'img/'.$new_name);
             if(!empty($text) && !empty($nameid)) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $pdo->prepare("INSERT INTO messages (name, message, image) VALUES (:name, :message, :image)");
+        $stmt = $pdo->prepare("INSERT INTO posts (name, message, image) VALUES (:name, :message, :image)");
         $stmt->bindParam(':name', $nameid);
         $stmt->bindParam(':message', $text);
         $stmt->bindParam(':image', $new_name);
@@ -34,15 +34,7 @@
         $stmt->bindParam(':message', $message);
         $stmt->bindParam(':toUser', $toUser);
         $stmt->bindParam(':fromUser', $fromUser);
-        if($stmt->execute()) {
-          $query = $pdo->prepare("SELECT * FROM messages WHERE (to_user_id = '$toUser' or to_user_id = '$fromUser') && (from_user_id = '$fromUser' or from_user_id = '$toUser')");
-          $query ->execute();
-          while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
-          $newmessage = $fetch['message'];
-          if ($fetch['from_user_id'] != $fromUser) {$class = 'in';} else {$class = 'out';};
-          echo "<p class='$class'>$newmessage</p>";
-         }
-        };  
+        $stmt->execute();   
     }
    
  ?>

@@ -1,5 +1,5 @@
 <?php 
-  require_once 'connect.php';
+  include 'connect.php';
   if ($_POST['choice'] == "random") {
     include 'randomPass.php';
     echo new Pass(10);
@@ -27,4 +27,9 @@
     $DataEdit = new DataEdit($pdo);
     $DataEdit->editData($_POST['newFname'], $_POST['newLname'], $_POST['newPass'], $_POST['thisId']);
   }
-?>
+  if ($_POST['choice'] == "log") {
+    include 'login.php';
+    $log = new Login($pdo);
+    $log->logIn($_POST['fname'], $_POST['pass']);
+  }
+  ?>

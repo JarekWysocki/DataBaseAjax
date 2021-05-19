@@ -1,7 +1,7 @@
 <?php
 require_once 'connect.php';
 $value = $_POST['value'];
-$query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC LIMIT $value");
+$query = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $value");
   $query ->execute();
   while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
     $nameid = $fetch['name'];
@@ -27,6 +27,7 @@ $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC LIMIT $value");
             <span class='time-right'>$time</span>
             </div>
             <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";
             }
       if(!$img && $image) { 
@@ -41,6 +42,7 @@ $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC LIMIT $value");
             <span class='time-right'>$time</span>
             </div>
             <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";  
       }
       if ($img && !$image) {
@@ -54,6 +56,7 @@ $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC LIMIT $value");
             <span class='time-right'>$time</span>
             </div>
             <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";   
       }
       if (!$img && !$image) {
@@ -67,6 +70,7 @@ $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC LIMIT $value");
             <span class='time-right'>$time</span>
             </div>
             <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";
       }
     }

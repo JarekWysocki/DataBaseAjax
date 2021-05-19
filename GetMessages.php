@@ -1,8 +1,8 @@
 <?php
 require_once 'connect.php';
-
-
-  $query = $pdo->prepare("SELECT * FROM messages ORDER BY id DESC");
+  $limit = $_POST['n'];
+  $limit = 4 * $limit;
+  $query = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $limit, 4");
   $query ->execute();
   while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
     $nameid = $fetch['name'];
@@ -15,122 +15,68 @@ require_once 'connect.php';
     $time = $fetch['time'];
     $name = $fetch1['fname'];
     $idOfPost = $fetch['id'];
-    $conn = $pdo->prepare("SELECT tab1.fname FROM likes INNER JOIN tab1 ON tab1.id=likes.who_like_id WHERE post_id = $idOfPost");
-    $conn -> execute();
-    $howmuchlikes = 0;
-    while($fetch2 = $conn->fetch(PDO::FETCH_ASSOC)){
-    ++$howmuchlikes;
-    }
    
+  
     if($nameid) {
       if($img && $image) {
-        if ($howmuchlikes > 0) {
             echo "<div class='container' id='$idOfPost'>
             <img src='/img/$img'>
             <p>$name</p>
             <div>
             <p>$message</p>
             <img class='myphoto' src='/img/$image'>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <p class='who'>check who</p>
+            <p class='like'>&#9733 like </p>
+            <p class='who'></p>
             <span class='time-right'>$time</span>
             </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-            </div>";}
-            else {
-              echo "<div class='container' id='$idOfPost'>
-            <img src='/img/$img'>
-            <p>$name</p>
-            <div>
-            <p>$message</p>
-            <img class='myphoto' src='/img/$image'>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <span class='time-right'>$time</span>
-            </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <form class='comments' onsubmit='return false;'><input placeholder='Your comment...' class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";
             }
-      }
-      if(!$img && $image) {
-        if ($howmuchlikes > 0) {
+      if(!$img && $image) { 
         echo "<div class='container' id='$idOfPost'>
             <img src='/img/noimg.jpg'>
             <p>$name</p>
             <div>
             <p>$message</p>
             <img class='myphoto' src='/img/$image'>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <p class='who'>check who</p>
+            <p class='like'>&#9733 like </p>
+            <p class='who'></p>
             <span class='time-right'>$time</span>
             </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-            </div>";}
-            else {
-              echo "<div class='container' id='$idOfPost'>
-              <img src='/img/noimg.jpg'>
-              <p>$name</p>
-              <div>
-              <p>$message</p>
-              <img class='myphoto' src='/img/$image'>
-              <p class='like'>&#9733 like $howmuchlikes</p>
-              <span class='time-right'>$time</span>
-              </div>
-              <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-              </div>";
-            }
+            <form class='comments' onsubmit='return false;'><input placeholder='Your comment...' class='comment' type='text'></form> 
+            <div class='comments'></div>
+            </div>";  
       }
       if ($img && !$image) {
-        if ($howmuchlikes > 0) {
         echo "<div class='container' id='$idOfPost'>
             <img src='/img/$img'>
             <p>$name</p>
             <div>
             <p>$message</p>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <p class='who'>check who</p>
+            <p class='like'>&#9733 like </p>
+            <p class='who'></p>
             <span class='time-right'>$time</span>
             </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-            </div>";}
-            else {
-              echo "<div class='container' id='$idOfPost'>
-              <img src='/img/$img'>
-              <p>$name</p>
-              <div>
-              <p>$message</p>
-              <p class='like'>&#9733 like $howmuchlikes</p>
-              <span class='time-right'>$time</span>
-              </div>
-              <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-              </div>";
-            }
+            <form class='comments' onsubmit='return false;'><input placeholder='Your comment...' class='comment' type='text'></form> 
+            <div class='comments'></div>
+            </div>";   
       }
       if (!$img && !$image) {
-        if ($howmuchlikes > 0) {
         echo "<div class='container' id='$idOfPost'>
             <img src='/img/noimg.jpg'>
             <p>$name</p>
             <div>
             <p>$message</p>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <p class='who'>check who</p>
+            <p class='like'>&#9733 like </p>
+            <p class='who'></p>
             <span class='time-right'>$time</span>
             </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
-            </div>";}
-            else {
-              echo "<div class='container' id='$idOfPost'>
-            <img src='/img/noimg.jpg'>
-            <p>$name</p>
-            <div>
-            <p>$message</p>
-            <p class='like'>&#9733 like $howmuchlikes</p>
-            <span class='time-right'>$time</span>
-            </div>
-            <form class='comments' onsubmit='return false;'><input class='comment' type='text'></form> 
+            <form class='comments' onsubmit='return false;'><input placeholder='Your comment...' class='comment' type='text'></form> 
+            <div class='comments'></div>
             </div>";
-            }
       }
-    }
+  }
+  
   }
 ?>
