@@ -3,9 +3,9 @@ html {
 }
 body {
   text-align: center;
-  background: #DEE4E6;
+  background: #f4f4f2;
   font-family: "Source Sans Pro", "Arial", sans-serif;
-  min-height: 96%;
+  min-height: 94%;
   margin:0;
 }
 #temperature {
@@ -30,6 +30,9 @@ p.like {
 }
 p.who {
   float: left;
+}
+#log img {
+  margin-top: 20px;
 }
 form.comments {
   display: flex;
@@ -86,14 +89,72 @@ justify-content: space-around;
 align-items: flex-start;
 }
 .start {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  position: relative;
+  background: #f4f4f2;
+  margin: 40px auto;
+  width: 80%;
+  height: 370px;
 }
-#demo, #log {
-  flex-basis: 50%;
+.start #demo, #log {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  transition: .25s ease;
 }
-
+.start #demo {
+  background-color:#e8e8e8;
+  left: 0;
+}
+#log {
+  background-color:#bbbfca;
+  background-position: right;
+  right: 0;
+}
+#log:before {
+  content: "OR";
+  font-weight: bold;
+  position: absolute;
+  background: white;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  top: 150px;
+  left: 0;
+  -webkit-transform: translate(-50%, -50%);
+}
+#log:after {
+  content: " ";
+  height: 280px;
+  width: 1px;
+  background-color: white;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+}
+#log:after {
+  right: 0;
+}
+.start #demo:hover {
+  width: 55%;
+}
+.start #demo:hover + #log {
+  width: 45%;
+}
+#log:hover {
+  width: 55%;
+}
+#log:hover + #demo {
+  width: 45%;
+}
+.start input, #login, #send {
+  display: block;
+  margin: auto;
+}
 .container {
   border: 2px solid #dedede;
   background-color: #FFFFFF;
@@ -178,7 +239,7 @@ align-items: flex-start;
 }
 .users {
   flex-basis: 15%;
-  max-height:350px;
+  max-height:500px;
   overflow: auto;
   margin: 60px 0 0 0;
   
@@ -241,12 +302,13 @@ background-color: #dedede;
     font-size: 10px;
     position: absolute;
     background-color: #e6ecf1;
-    z-index: 100;
+    z-index: 1000;
     bottom: 0;
-    left: 0;
+    left: 50px;
     padding:10px;
     border-radius: 5px;
   }
+ 
   .close {
     float: right;
     cursor: default;
@@ -371,6 +433,43 @@ background-color: #dedede;
 }
 .users img {
 margin:5px auto;
+}
+.start {
+  height: 670px;
+  width: 350px;
+  margin: 0 auto;
+}
+  .start #demo, #log {
+  width: 100%;
+}
+#log {
+  top:370px;
+}
+.start #demo:hover {
+  width: 100%;
+}
+.start #demo:hover + #log {
+  width: 100%;
+}
+#log:hover {
+  width: 100%;
+}
+#log:hover + #demo {
+  width: 100%;
+}
+#log::after {
+  height: 1px;
+  width: 200px;
+  top: 0;
+  left: 75px;
+}
+#log::before {
+  top:0;
+  left:175px;
+  z-index: 100;
+}
+#log p {
+  margin-top: 25px;
 }
 }
 
