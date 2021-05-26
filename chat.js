@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
     var fromUser = $("#mypage p").attr('id');
     var lastid = 0;
     var idleTime = 0;
@@ -14,7 +14,7 @@ $(document).ready(function() {
         $('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + heightusers + 65));
     }
     // adding post
-    $(document).on('submit', '#chatForm', function() {
+    $(document).on('submit', '#chatForm', () => {
         var text = $.trim($("#text").val());
         if (text != "") {
             var formData = new FormData();
@@ -27,7 +27,7 @@ $(document).ready(function() {
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(data) {
+                success: (data) => {
                     $("#text").val('');
                     $('#myphoto').val('');
                 }
@@ -37,7 +37,7 @@ $(document).ready(function() {
         }
     });
     // adding comment
-    $(document).on('submit', 'form.comments', function(e) {
+    $(document).on('submit', 'form.comments', (e) => {
         var postId = e.target.parentNode.id;
         var text = $("#" + postId + " input").val();
         $.post('newcomment.php', {
@@ -49,26 +49,26 @@ $(document).ready(function() {
         });
     });
     // activity
-    $(this).mousemove(function(e) {
+    $(this).mousemove((e) => {
         idleTime = 0;
     });
-    $(this).mousedown(function(e) {
+    $(this).mousedown((e) => {
         idleTime = 0;
     });
-    $(this).scroll(function(e) {
+    $(this).scroll((e) => {
         idleTime = 0;
     });
-    $(this).keypress(function(e) {
+    $(this).keypress((e) => {
         idleTime = 0;
     });
-    $(this).keydown(function(e) {
+    $(this).keydown((e) => {
         idleTime = 0;
     });
-    $(this).click(function(e) {
+    $(this).click((e) => {
         idleTime = 0;
     });
     $(this).on({
-        'touchstart': function() {
+        'touchstart': () => {
             idleTime = 0;
         }
     });
@@ -79,7 +79,7 @@ $(document).ready(function() {
         data: {
             'n': n
         },
-    }).done(function(data) {
+    }).done((data) => {
         n += 1;
         $(".allmessages").html(data);
         $('.like').on("click", like);
@@ -93,9 +93,9 @@ $(document).ready(function() {
         $('.myphoto').on("click", show);
     });
     // load more posts after scrolling
-    $('.chatMessages').scroll(function() {
+    $('.chatMessages').scroll(()  => {
         var heightofchat = $('.chatMessages').height();
-        var tempScrollTop = $(this).scrollTop();
+        var tempScrollTop = $('.chatMessages').scrollTop();
         var bodyheight = $('.allmessages').height();
         if (bodyheight == heightofchat + tempScrollTop) {
             $.ajax({
@@ -105,7 +105,7 @@ $(document).ready(function() {
                     'n': n
                 },
                 context: document.body
-            }).done(function(data) {
+            }).done((data) => {
                 n += 1;
                 $(".allmessages").append(data);
                 $('.like').on("click", like);
@@ -123,26 +123,26 @@ $(document).ready(function() {
     // function who listen changed	
     getData = () => {
         // adding comment to post
-        $('.container').each(function(i, obj) {
+        $('.container').each((i, obj) => {
             var amount = $("#" + obj.id + " div.comment").length;
             $.post('isnewcomment.php', {
                 postId: obj.id
-            }, function(data) {
+            }, (data) => {
                 if (data > amount) {
                     var value = data - amount;
                     $.post('getnewcomment.php', {
                         postId: obj.id,
                         value: value
-                    }, function(dat) {
+                    }, (dat) => {
                         $("#" + obj.id + " div.comments").append(dat);
                     });
                 }
             });
         });
         //adding like to post
-        $.get('getlikes.php', function(data) {
+        $.get('getlikes.php', (data) => {
             var tableoflikes = data.split(",");
-            $('.container').each(function(i, obj) {
+            $('.container').each((i, obj) => {
                 var count = tableoflikes.filter(x => x == obj.id).length;
                 if (count > 0) {
                     $("#" + obj.id + " p.who").html(count);
@@ -151,13 +151,13 @@ $(document).ready(function() {
         });
         // adding post
         var myname = $("#mypage p").html().slice(6);
-        $.get('getlastmessage.php', function(data) {
+        $.get('getlastmessage.php', (data) => {
             var amount = $(".allmessages div:first-child").attr('id');
             if (data > amount) {
                 var value = data - amount;
                 $.post('newpost.php', {
                     value: value
-                }, function(data) {
+                }, (data) => {
                     $(".allmessages").prepend('' + data + '');
                     $('.like').on("click", like);
                     if (width > 800) {
@@ -172,14 +172,14 @@ $(document).ready(function() {
             }
         });
         // check users + conversation
-        $.get('getusers.php', function(data) {
+        $.get('getusers.php', (data) => {
             $(".users").html(data);
             $('.user img').on("click", chatWithUser);
         });
         // check new message	
         $.post('newmessage.php', {
             fromUser: fromUser
-        }, function(data) {
+        }, (data) => {
             if (lastid != data) {
                 if (lastid != 0) {
                     var callid = data.split(',');
@@ -191,7 +191,7 @@ $(document).ready(function() {
         // wait to new message and open window after then
         $.post('isnewmessage.php', {
             fromUser: fromUser
-        }, function(data) {
+        }, (data) => {
             var newalert = data.split(',');
             newalert = newalert.slice(0, -1);
             var uniqueChars = [...new Set(newalert)];
@@ -200,7 +200,7 @@ $(document).ready(function() {
         if (idleTime == 0) {
             $.post('islog.php', {
                 myname: myname
-            }, function(data) {});
+            }, (data) => {});
         }
         idleTime = idleTime + 1;
     };
@@ -226,7 +226,7 @@ $(document).ready(function() {
             $.post('GetPrivateMessages.php', {
                 toUser: toUser,
                 fromUser: fromUser
-            }, function(data) {
+            }, (data) => {
                 var amount = $("." + plus + " p").length - 1;
                 $('.' + plus + ' div').html(data);
                 var countMsg = data.split('<p').length;
@@ -247,7 +247,7 @@ $(document).ready(function() {
                     toUser: toUser,
                     fromUser: fromUser,
                     value: value,
-                }, function(data) {
+                }, (data) => {
                     console.log(data);
                     $('.' + plus + ' div').append(data);
                     $('.' + plus + ' div').scrollTop($('.' + plus + ' div')[0].scrollHeight);
@@ -260,14 +260,14 @@ $(document).ready(function() {
                 clearInterval(myfunction);
                 $(this).parent().remove()
             });
-            $('.' + plus + '').on('submit', '.private', function() {
+            $('.' + plus + '').on('submit', '.private', () => {
                 var message = $('.' + toUser + '').val();
                 if (message) {
                     $.post('ChatPoster.php', {
                         message: message,
                         toUser: toUser,
                         fromUser: fromUser
-                    }, function(data) {
+                    }, (data) => {
                         $('.' + toUser + '').val('');
                     });
                 }
@@ -280,7 +280,7 @@ $(document).ready(function() {
         $.post('like.php', {
             postId: postId,
             fromUser: fromUser
-        }, function(data) {
+        }, (data) => {
         });
     }
     // check who is like post
@@ -288,7 +288,7 @@ $(document).ready(function() {
         var postId = e.target.parentNode.parentNode.id;
         $.post('wholike.php', {
             postId: postId
-        }, function(data) {
+        }, (data) => {
             if (data) {
                 $('#' + postId + ' p.like').append('<div class="wholikes">' + data + '</div>');
             }
@@ -300,7 +300,7 @@ $(document).ready(function() {
     }
     // get likes from database
     getlikes = (e) => {
-        $.get('getlikes.php', function(data) {
+        $.get('getlikes.php', (data) => {
             var tableoflikes = data.split(",");
             $('.container').each(function(i, obj) {
                 var count = tableoflikes.filter(x => x == obj.id).length;
