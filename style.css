@@ -182,11 +182,6 @@ align-items: flex-start;
 #text {
   width: 65%;
 }
-#logout {
-  position: absolute;
-  top: 40px;
-  cursor: pointer;
-}
 .newWindow > div {
   width: 100%;
   height: 70%;
@@ -350,6 +345,15 @@ background-color: #dedede;
     color: #aaa;
     font-size: 11px;
   }
+  img.out {
+    border-radius: 0;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 40px;
+    cursor: pointer;
+    object-fit: contain;
+  }
   @media screen and (-webkit-min-device-pixel-ratio:0) { 
     select,
     textarea,
@@ -463,6 +467,11 @@ margin:5px auto;
   top: 0;
   left: 75px;
 }
+img.out {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 100px 0 !important;
+}
 #log::before {
   top:0;
   left:175px;
@@ -470,6 +479,17 @@ margin:5px auto;
 }
 #log p {
   margin-top: 25px;
+}
+.first img {
+  margin: auto 35px;
+}
+.first p:first-child {
+  text-align: start;
+  margin-left: 35px;
+}
+#logout {
+  top: 100px;
+right: 10px;
 }
 }
 
