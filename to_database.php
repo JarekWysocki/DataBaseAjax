@@ -1,6 +1,6 @@
 <?php
 class DataSend {
-    protected $salt = 'Taj%of*nzN2KBMFDj2D&!YiF!mGmwbE*7G1bK|93AA0PRs^!KgKKiU!InuIj5zlhHhit_gm0gl0AQkoS23)';
+    protected $salt = 'something';
     public function __construct($pdo) {
         $this->pdo = $pdo;
     }
