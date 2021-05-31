@@ -8,11 +8,11 @@ $(document).ready(() => {
     var heightusers = $('.users').height();
     var heightchatbottom = $('.chatBottom').height();
     var n = 0;
-    if (width > 800) {
-        $('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + 55));
-    } else {
-        $('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + heightusers + 65));
-    }
+    (width > 800) ? 
+        $('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + 55))
+     : 
+        $('.chatMessages').height(heightwindow - (heightfirst + heightchatbottom + heightusers + 65))
+    
     // adding post
     $(document).on('submit', '#chatForm', () => {
         var text = $.trim($("#text").val());
@@ -30,6 +30,7 @@ $(document).ready(() => {
                 success: (data) => {
                     $("#text").val('');
                     $('#myphoto').val('');
+                    n++;
                 }
             });
         } else {
@@ -80,7 +81,7 @@ $(document).ready(() => {
             'n': n
         },
     }).done((data) => {
-        n += 1;
+        n += 4;
         $(".allmessages").html(data);
         $('.like').on("click", like);
         if (width > 800) {
@@ -92,6 +93,7 @@ $(document).ready(() => {
         }
         $('.myphoto').on("click", show);
     });
+    
     // load more posts after scrolling
     $('.chatMessages').scroll(()  => {
         var heightofchat = $('.chatMessages').height();
@@ -100,13 +102,13 @@ $(document).ready(() => {
         if (bodyheight == heightofchat + tempScrollTop) {
             $.ajax({
                 type: "POST",
-                url: "GetMessages.php",
+                url: "GetMessagesScroll.php",
                 data: {
                     'n': n
                 },
                 context: document.body
             }).done((data) => {
-                n += 1;
+                n += 4;
                 $(".allmessages").append(data);
                 $('.like').on("click", like);
                 if (width > 800) {
