@@ -1,7 +1,7 @@
 <?php
 require_once 'connect.php';
-$value = $_POST['value'];
-$query = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $value");
+$value = $_POST['amount'];
+$query = $pdo->prepare("SELECT * FROM posts WHERE id > $value ORDER BY id DESC");
   $query ->execute();
   while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
     $nameid = $fetch['name'];
