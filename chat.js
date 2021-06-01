@@ -30,7 +30,7 @@ $(document).ready(() => {
                 success: (data) => {
                     $("#text").val('');
                     $('#myphoto').val('');
-                    n++;
+                    
                 }
             });
         } else {
@@ -74,6 +74,7 @@ $(document).ready(() => {
         }
     });
     // load first 4 posts
+
     $.ajax({
         type: "POST",
         url: "GetMessages.php",
@@ -96,15 +97,17 @@ $(document).ready(() => {
     
     // load more posts after scrolling
     $('.chatMessages').scroll(()  => {
+        var amountOfDiv = $('.allmessages .container').length;
+        var x = n + (amountOfDiv - n);
         var heightofchat = $('.chatMessages').height();
         var tempScrollTop = $('.chatMessages').scrollTop();
         var bodyheight = $('.allmessages').height();
         if (bodyheight == heightofchat + tempScrollTop) {
             $.ajax({
                 type: "POST",
-                url: "GetMessagesScroll.php",
+                url: "scroll.php",
                 data: {
-                    'n': n
+                    'n': x
                 },
                 context: document.body
             }).done((data) => {
@@ -155,10 +158,9 @@ $(document).ready(() => {
         var myname = $("#mypage p").html().slice(6);
         $.get('getlastmessage.php', (data) => {
             var amount = $(".allmessages div:first-child").attr('id');
-            if (data > amount) {
-                var value = data - amount;
+            if (data != amount) {
                 $.post('newpost.php', {
-                    value: value
+                    amount: amount
                 }, (data) => {
                     $(".allmessages").prepend('' + data + '');
                     $('.like').on("click", like);
@@ -250,7 +252,6 @@ $(document).ready(() => {
                     fromUser: fromUser,
                     value: value,
                 }, (data) => {
-                    console.log(data);
                     $('.' + plus + ' div').append(data);
                     $('.' + plus + ' div').scrollTop($('.' + plus + ' div')[0].scrollHeight);
                 }
